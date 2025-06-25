@@ -1,22 +1,22 @@
 require('dotenv').config()
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 const Contact = require('./models/contact')
-const morgan = require('morgan');
-const cors = require('cors');
+const morgan = require('morgan')
+const cors = require('cors')
 
-app.use(cors());
-app.use(express.json());
+app.use(cors())
+app.use(express.json())
 app.use(express.static('dist'))
 //app.use(morgan('tiny'));
 
-morgan.token("data", req =>
-  req.method === "POST" && req.path === "/api/persons"
+morgan.token('data', req =>
+  req.method === 'POST' && req.path === '/api/persons'
     ? JSON.stringify(req.body)
     : ''
 )
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'));
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 /*  let persons = [
       {
@@ -86,7 +86,7 @@ app.post('/api/persons', (req, res, next) => {
   const body = req.body
 
   if (!body.name || !body.number) {
-    return res.status(400).json({error: 'Content missing'})
+    return res.status(400).json({ error: 'Content missing' })
   }
 
   const contact = new Contact({
@@ -105,12 +105,12 @@ app.put('/api/persons/:id', (req, res, next) => {
 //  const body = req.body
   const { name, number } = req.body
 
-/*  const contact = {
+  /*  const contact = {
       name: body.name,
       number: body.number
     }
 */
-  Contact.findByIdAndUpdate(req.params.id, {name, number}, {new: true, runValidators: true, context: 'query'})
+  Contact.findByIdAndUpdate(req.params.id, { name, number }, { new: true, runValidators: true, context: 'query' })
     .then(updatedContact => {
       res.json(updatedContact)
     })
